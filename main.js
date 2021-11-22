@@ -59,17 +59,37 @@ const posts = [
 const content = document.querySelector(".posts-list");
 let temp = "";
 
+function initials(name){
+    let temp = name[0];
+    for (let i = 0; i < name.length; i++) {
+        if(name[i] == " "){
+            temp += name[i + 1];
+        }
+    }
+    return `<div class="profile-pic-default"><span>${temp}</span></div>`;
+}
+
 for (let i = 0; i < posts.length; i++) {
     const {name, image} = posts[i].author;
+    let userPhoto = "";
+
+    if(image == null){
+
+        userPhoto = initials(posts[i].author.name);
+    } else {
+        userPhoto = `<img class="profile-pic" src="${image}" alt="${name}">`;
+    }
+
+
     temp += `
     <div class="post">
         <div class="post__header">
             <div class="post-meta">
                 <div class="post-meta__icon">
-                    <img class="profile-pic" src="${image}" alt="${posts[i].author.name}">
+                    ${userPhoto}
                 </div>
                 <div class="post-meta__data">
-                    <div class="post-meta__author">${name}</div>
+                    <div class="post-meta__author">${posts[i].author.name}</div>
                     <div class="post-meta__time">${posts[i].created}</div>
                 </div>
             </div>
