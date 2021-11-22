@@ -56,9 +56,11 @@ const posts = [
     }
 ];
 
+
 const content = document.querySelector(".posts-list");
 let temp = "";
 
+// funzione che strapola le inziali di una stringa
 function initials(name){
     let temp = name[0];
     for (let i = 0; i < name.length; i++) {
@@ -69,16 +71,19 @@ function initials(name){
     return `<div class="profile-pic-default"><span>${temp}</span></div>`;
 }
 
+// funzione che inverte la data 
 function reverseDate(date){
     let temp = "";
     temp = date.split("-").reverse().join("-");
     return temp;
 }
 
+// faccio un ciclo che scorre e inzializza la pagina in modo dinamico
 for (let i = 0; i < posts.length; i++) {
+    // creo le variabili che mi serviranno per formare la parte HTML dinamica da inserire del container 
     const {name, image} = posts[i].author;
     let userPhoto = "";
-    let data = reverseDate(posts[i].created)
+    let data = reverseDate(posts[i].created);
     if(image == null){
 
         userPhoto = initials(posts[i].author.name);
@@ -118,5 +123,25 @@ for (let i = 0; i < posts.length; i++) {
         </div>
     </div>
     `
+
+    
 }
-content.innerHTML = temp; 
+// incollo l'HTML nel container 
+content.innerHTML = temp;
+
+// creo una variabile che memorizzi il pulsante e che ad ogni click tolga e aggiunga una determinata classe. Se il bottone risulta cliccato (in base alla classe) aumento la variabile sia nella pagina che nell'array, quando verrà disattivato diminuisco il valore sia nella pagina che nell'array 
+let button = document.querySelectorAll(".like-button");
+for (let i = 0; i < button.length; i++) {
+    button[i].addEventListener('click', function () {
+        event.preventDefault();
+        const like = document.getElementById("like-counter-" + (i + 1));
+        button[i].classList.toggle("like-button--liked");
+        if (button[i].classList.contains("like-button--liked")) {
+            like.innerHTML = parseInt(document.getElementById("like-counter-" + (i + 1)).innerText) + 1;
+            posts[i].likes++;
+        } else {
+            like.innerHTML = parseInt(document.getElementById("like-counter-" + (i + 1)).innerText) - 1;
+            posts[i].likes--;
+        }    
+    });
+}
