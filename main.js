@@ -69,17 +69,22 @@ function initials(name){
     return `<div class="profile-pic-default"><span>${temp}</span></div>`;
 }
 
+function reverseDate(date){
+    let temp = "";
+    temp = date.split("-").reverse().join("-");
+    return temp;
+}
+
 for (let i = 0; i < posts.length; i++) {
     const {name, image} = posts[i].author;
     let userPhoto = "";
-
+    let data = reverseDate(posts[i].created)
     if(image == null){
 
         userPhoto = initials(posts[i].author.name);
     } else {
         userPhoto = `<img class="profile-pic" src="${image}" alt="${name}">`;
     }
-
 
     temp += `
     <div class="post">
@@ -90,7 +95,7 @@ for (let i = 0; i < posts.length; i++) {
                 </div>
                 <div class="post-meta__data">
                     <div class="post-meta__author">${posts[i].author.name}</div>
-                    <div class="post-meta__time">${posts[i].created}</div>
+                    <div class="post-meta__time">${data}</div>
                 </div>
             </div>
         </div>
